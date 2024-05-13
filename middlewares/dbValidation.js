@@ -1,10 +1,10 @@
 
-import Category from '../models/categoriesModel';
+import Category from '../models/categoriesModel.js';
 import status from 'http-status';
 // import Product from '../models/productModel.js';
 // import User from '../models/userModel.js';
 
-export const validateForUniqueCatalog = async (req, res, next) => {
+export const validationForUniqueCategory = async (req, res, next) => {
   try {
     const data = await Category.findOne({ ...req.body });
     if (data) {
