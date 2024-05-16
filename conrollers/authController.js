@@ -49,9 +49,11 @@ export const deleteUser = async(req,res)=>{
 }
 export const loginUser = async(req,res)=>{
     try{
-        const {id} = req.params;
-        await User.findByIdAndDelete(id)
-        res.status(200).send({message:'Successfully Deleted'});
+        const {email ,password} = req.body;
+        const data = await User.findOne(email);
+        if(data && data.password === password){
+            res.status(200).send({message:'Successfully Deleted'});        }
+        res.status(status.BAD_REQUEST).send({message:'Email or Password is incorrect'})
     }catch(error){
         console.log(error)
                 res.status(status.INTERNAL_SERVER_ERROR).send({message:error.message})
