@@ -1,8 +1,12 @@
+import {config} from 'dotenv';
+config();
 import express,{json} from 'express';
 import productRouter from './router/productRouter.js';
 import categoryRouter from './router/categoryRouter.js';
 import connectDb from './db/indexdb.js';
 import authRouter from './router/authRouter.js';
+import orderRouter from './router/orderRouter.js';
+
 connectDb();
 
 
@@ -13,6 +17,8 @@ app.use('/products',productRouter);
 app.use('/categories',categoryRouter);
 app.use('/auth',authRouter);
 app.use('/login',authRouter);
+app.use('/order',orderRouter);
+
 
 
 

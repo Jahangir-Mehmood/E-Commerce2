@@ -9,7 +9,7 @@ authRouter.get('/',getALLUsers);
 
 authRouter.post('/signup',userValidation,validationForUniqueEmail,createUser)
 
-authRouter.post('/login',loginValidation,loginUser)
+authRouter.post('/login',loginValidation,loginUser);
 
 
 authRouter.put('/:id',validateValidProductId,productUpdateValidation,updateUser)

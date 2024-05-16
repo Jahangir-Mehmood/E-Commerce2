@@ -64,10 +64,10 @@ import Category from '../models/categoriesModel.js'
     next();
   };
   
-  // export const orderValidation = (req, res, next) => {
-  //   const { error } = orderValidationSchema.validate(req.body);
-  //   if (error) {
-  //     return res.status(status.BAD_REQUEST).send(error);
-  //   }
-  //   next();
-  // };
+  export const orderValidation = (req, res, next) => {
+    const { error } = orderValidationSchema.validate(req.body);
+    if (error) {
+      return res.status(status.BAD_REQUEST).send(error);
+    }
+    next();
+  };

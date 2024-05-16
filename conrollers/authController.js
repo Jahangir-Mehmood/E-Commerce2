@@ -1,5 +1,6 @@
 import status from 'http-status';
 import User from '../models/userModel.js'
+import { createToken } from '../utils/utils.js';
 
 export const createUser = async(req,res)=>{
     try{
@@ -50,9 +51,12 @@ export const deleteUser = async(req,res)=>{
 export const loginUser = async(req,res)=>{
     try{
         const {email ,password} = req.body;
-        const data = await User.findOne(email);
+        const data = await User.findOne({email});
         if(data && data.password === password){
-            res.status(200).send({message:'Successfully Deleted'});        }
+            const token = createToken({email:data.email,password:data.password,_id:data._id});
+            const {_id,email,name}=data;
+            return res.status(status.OK).send({_id,email,name, token})
+            }
         res.status(status.BAD_REQUEST).send({message:'Email or Password is incorrect'})
     }catch(error){
         console.log(error)
