@@ -10,19 +10,61 @@ export const createProduct = async(req,res)=>{
     }
 }
 
-export const getALLProducts = async(req,res)=>{
-    try{
+export const getALLProducts = async (req, res) => {
+    try {
+        const { categoryId, pageNumber, pageSize } = req.query;
 
-        //.populate('category'); name aur id dono get karne k lye
-        // const resp =  await Product.find().populate('category');
-        const {pageNumber,pageSize} = req.req;
-        const resp =  await Product.paginate({},{populate:'category',page: pageNumber,limit:pageSize});
+        let query = {};
 
-     res.status(status.OK).send(resp);
-     }catch(error){
-        res.status(status.INTERNAL_SERVER_ERROR).send({message:error.message})
-     }
+        if (categoryId) {
+            query.category = categoryId;
+        }
+
+        if (pageNumber && pageSize) {
+            const options = {
+                populate: 'category',
+                page: pageNumber,
+                limit: pageSize
+            };
+            const paginatedProducts = await Product.paginate(query, options);
+            return res.status(status.OK).send(paginatedProducts);
+        } else {
+            const allProducts = await Product.find(query).populate('category');
+            return res.status(status.OK).send(allProducts);
+        }
+    } catch (error) {
+        res.status(status.INTERNAL_SERVER_ERROR).send({ message: error.message });
+    }
 }
+
+
+// export const getALLProducts = async (req, res) => {
+//     try {
+//         const { categoryId, pageNumber, pageSize } = req.query;
+
+//         if (!categoryId) {
+//             return res.status(status.BAD_REQUEST).send({ message: "Category ID is required" });
+//         }
+
+//         let query = { category: categoryId };
+
+//         if (pageNumber && pageSize) {
+//             const options = {
+//                 populate: 'category',
+//                 page: pageNumber,
+//                 limit: pageSize
+//             };
+//             const paginatedProducts = await Product.paginate(query, options);
+//             return res.status(status.OK).send(paginatedProducts);
+//         } else {
+//             const allProducts = await Product.find(query).populate('category');
+//             return res.status(status.OK).send(allProducts);
+//         }
+//     } catch (error) {
+//         res.status(status.INTERNAL_SERVER_ERROR).send({ message: error.message });
+//     }
+// }
+
 
 export const updateProduct = async(req,res)=>{
     try{

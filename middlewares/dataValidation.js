@@ -9,20 +9,7 @@ import {
   import status from 'http-status';
   
 import Category from '../models/categoriesModel.js'
-// import status from 'http-status';
-// export const validationForUniqueCategory = async (req, res, next) => {
-//   try {
-//     const data = await Category.findOne({ ...req.body });
-//     if (data) {
-//       return res
-//         .status(status.BAD_REQUEST)
-//         .send({ message: 'Category with this name already exist' });
-//     }
-//   } catch (error) {
-//     return res.status(status.INTERNAL_SERVER_ERROR).send(error);
-//   }
-//   next();
-// };
+
 
   export const catagoryValidation = (req, res, next) => {
     const { error } = categoryValidationSchema.validate(req.body);
@@ -33,7 +20,7 @@ import Category from '../models/categoriesModel.js'
   };
   
   export const productValidation = (req, res, next) => {
-    const { error } = userValidationSchema.validate(req.body);
+    const { error } = productValidationSchema.validate(req.body);
     if (error) {
       return res.status(status.BAD_REQUEST).send(error);
     }
